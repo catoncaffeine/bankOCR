@@ -3,15 +3,42 @@ public enum BankOCREnum {
                 "| |" +
                 "|_|"),
 
-    ONE("1", "ONE"),
-    TWO("2", "TWO"),
-    THREE("3", "THREE"),
-    FOUR("4", "FOUR"),
-    FIVE("5", "FIVE"),
-    SIX("6", "SIX"),
-    SEVEN("7", "SEVEN"),
-    EIGHT("8", "EIGHT"),
-    NINE("9", "NINE"),
+    ONE("1",    "   " +
+                "  |" +
+                "  |"),
+
+    TWO("2",    " _ " +
+                " _|" +
+                "|_ "),
+
+    THREE("3",  " _ " +
+                " _|" +
+                " _|"),
+
+    FOUR("4",   "   " +
+                "|_|" +
+                "  |"),
+
+    FIVE("5",   " _ " +
+                "|_ " +
+                " _|"),
+
+    SIX("6",    " _ " +
+                "|_ " +
+                "|_|"),
+
+    SEVEN("7",  " _ " +
+                "  |" +
+                "  |"),
+
+    EIGHT("8",  " _ " +
+                "|_|" +
+                "|_|"),
+
+    NINE("9",   " _ " +
+                "|_|" +
+                " _|"),
+
     UNKNOWN("?", "?");
 
     private final String stringRepresentation;
