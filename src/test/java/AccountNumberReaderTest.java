@@ -114,4 +114,15 @@ public class AccountNumberReaderTest {
 
         }
     }
+
+    @Test
+    public void testReadAccountNumber_multi() {
+        try {
+            ArrayList<String> output = accountNumberReader.readAccountNumber("src/main/resources/multi.txt");
+            assert(output.get(0)).equals("012345678");
+            assert(output.get(1)).equals("123456789");
+        } catch (IOException e) {
+
+        }
+    }
 }
