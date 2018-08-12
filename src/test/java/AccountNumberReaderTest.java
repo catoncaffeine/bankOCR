@@ -104,4 +104,14 @@ public class AccountNumberReaderTest {
 
         }
     }
+
+    @Test
+    public void testReadAccountNumber_NaNs() {
+        try {
+            ArrayList<String> output = accountNumberReader.readAccountNumber("src/main/resources/nans.txt");
+            assert(output.get(0)).equals("?????????");
+        } catch (IOException e) {
+
+        }
+    }
 }
