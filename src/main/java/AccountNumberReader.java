@@ -3,50 +3,50 @@ import java.util.ArrayList;
 
 public class AccountNumberReader {
 
-    public ArrayList<String> readAccountNumber(String filePath) throws IOException {
-
+    public ArrayList<String> getAccountNumbers(String filePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        ArrayList<String> translatedAccountNumbers = new ArrayList<String>();
-        Boolean endOfFile = false;
-        String line1;
-        String line2;
-        String line3;
-        String line4;
-
-        while(!endOfFile) {
-            ArrayList<String> accountStringArray = new ArrayList<String>();
-            line1 = reader.readLine();
-            line2 = reader.readLine();
-            if(line2 != null) {
-                line3 = reader.readLine();
-                line4 = reader.readLine();
-                accountStringArray.add(addEndingSpaces(line1, 27));
-                accountStringArray.add(addEndingSpaces(line2, 27));
-                accountStringArray.add(addEndingSpaces(line3, 27));
-                accountStringArray.add(addEndingSpaces(line4, 27));
-                translatedAccountNumbers.add(translateStringToDigit(accountStringArray));
-
-            } else {
-                endOfFile = true;
-            }
-
-        }
-
+        ArrayList<String> translatedAccountNumbers = new ArrayList();
+        readAccountNumbers(reader, translatedAccountNumbers);
         return translatedAccountNumbers;
     }
 
-    private String translateStringToDigit(ArrayList<String> accountArray) {
-        int charPosition = 0;
-        String accountNumber = "";
-        while (charPosition < 27) {
-            String top = accountArray.get(0).substring(charPosition, charPosition + 3);
-            String middle = accountArray.get(1).substring(charPosition, charPosition + 3);
-            String bottom = accountArray.get(2).substring(charPosition, charPosition + 3);
-            String translatedDigit = BankOCREnum.getDigitFromStringRepresentation(top + middle + bottom);
-            accountNumber = accountNumber + translatedDigit;
-            charPosition+=3;
+    private void readAccountNumbers(BufferedReader reader, ArrayList<String> translatedAccountNumbers) throws IOException{
+        ArrayList<String> accountStringArray = generateAccountStringArray(reader);
+        if(accountStringArray.size() == 3) {
+            StringBuffer accountNumber = new StringBuffer();
+            translateStringToDigit(accountStringArray, accountNumber, 0);
+            translatedAccountNumbers.add(accountNumber.toString());
+            readAccountNumbers(reader, translatedAccountNumbers);
         }
-        return accountNumber;
+    }
+
+    private ArrayList<String> generateAccountStringArray(BufferedReader reader) throws IOException{
+        ArrayList<String> accountStringArray = new ArrayList<>();
+        for (int i = 0; i<3; i++) {
+            String line = reader.readLine();
+            if(!isEndOfFile(i, line)) {
+                accountStringArray.add(addEndingSpaces(line, 27));
+            }
+        }
+        reader.skip(1);
+        return accountStringArray;
+    }
+
+    private Boolean isEndOfFile(int lineIndex, String line) {
+        return lineIndex == 1 && line == null;
+    }
+    
+    private void translateStringToDigit(ArrayList<String> accountStringArray, StringBuffer accountNumber, int startingPosition) {
+        int endingPosition = startingPosition + 3;
+        if(endingPosition <= 27) {
+            StringBuffer digitStringRepresentation = new StringBuffer();
+            accountStringArray.forEach(line ->
+                    digitStringRepresentation.append(line.substring(startingPosition, endingPosition))
+            );
+            String translatedDigit = BankOCREnum.getDigitFromStringRepresentation(digitStringRepresentation.toString());
+            accountNumber.append(translatedDigit);
+            translateStringToDigit(accountStringArray, accountNumber, endingPosition);
+        }
     }
 
     private String addEndingSpaces(String line, int totalLength) {
