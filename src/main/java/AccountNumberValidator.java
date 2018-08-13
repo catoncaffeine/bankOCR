@@ -1,6 +1,6 @@
 public class AccountNumberValidator {
 
-    public AccountNumberErrorEnum validate(String accountNumber) {
+    public static AccountNumberErrorEnum validate(String accountNumber) {
         if(hasIllegalDigits(accountNumber)) {
             return AccountNumberErrorEnum.ILLEGAL;
         }
@@ -12,12 +12,12 @@ public class AccountNumberValidator {
         return AccountNumberErrorEnum.VALID;
     }
 
-    private Boolean hasIllegalDigits(String accountNumber) {
+    private static Boolean hasIllegalDigits(String accountNumber) {
 
         return accountNumber.indexOf("?") != -1;
     }
 
-    private Boolean invalidCheckSum(String accountNumber) {
+    private static Boolean invalidCheckSum(String accountNumber) {
         int total = 0;
         for(int i = 0; i < 9; i++) {
             int multiplier = 9 - i;
