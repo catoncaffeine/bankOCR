@@ -1,3 +1,5 @@
+// TODO: Story 2 - check if JAVA provides utility to process checksum provided a denominator
+
 public class AccountNumberValidator {
 
     public static AccountNumberErrorEnum validate(String accountNumber) {
