@@ -17,9 +17,15 @@ public class AccountNumberReader {
         // if the generated [top, middle, bottom] array does not include all 3 components
         // assume to be the end of the file and do not process
         if(accountStringArray.size() == 3) {
-            StringBuffer accountNumber = new StringBuffer();
-            translateStringToDigit(accountStringArray, accountNumber, 0);
-            translatedAccountNumbers.add(accountNumber.toString());
+            // combine all digit into single string
+            StringBuffer fullStringRep = new StringBuffer();
+            translateStringToDigit(accountStringArray, fullStringRep, 0);
+            // once have the full string representation of all 9 numbers, translate it into digits
+            StringBuffer translatedAccountNum = new StringBuffer();
+            translateFullAccountNumber(fullStringRep, translatedAccountNum, 0);
+            // add the translated full account number to the list of outputs
+            translatedAccountNumbers.add(translatedAccountNum.toString());
+            // do it again
             readAccountNumbers(reader, translatedAccountNumbers);
         }
     }
@@ -41,19 +47,26 @@ public class AccountNumberReader {
     private Boolean isEndOfFile(int lineIndex, String line) {
         return lineIndex == 1 && line == null;
     }
-    
-    private void translateStringToDigit(ArrayList<String> accountStringArray, StringBuffer accountNumber, int startingPosition) {
+
+    private void translateStringToDigit(ArrayList<String> accountStringArray, StringBuffer accountNumberStrRep,  int startingPosition) {
         int endingPosition = startingPosition + 3;
         if(endingPosition <= 27) {
             StringBuffer digitStringRepresentation = new StringBuffer();
-            // get 3 characters at a time from top, middle, and bottom
-            // to construct a single digit inside each account id
             accountStringArray.forEach(line ->
-                    digitStringRepresentation.append(line.substring(startingPosition, endingPosition))
+                digitStringRepresentation.append(line.substring(startingPosition, endingPosition))
             );
-            String translatedDigit = BankOCREnum.getDigitFromStringRepresentation(digitStringRepresentation.toString());
+            accountNumberStrRep.append(digitStringRepresentation);
+            translateStringToDigit(accountStringArray, accountNumberStrRep, endingPosition);
+        }
+    }
+
+    private void translateFullAccountNumber(StringBuffer accountNumberStrRep, StringBuffer accountNumber, int startingPosition) {
+        int endingPosition = startingPosition + 9;
+        if(endingPosition <= 81) {
+            String digitStrRep = accountNumberStrRep.substring(startingPosition, endingPosition);
+            String translatedDigit = BankOCREnum.getDigitFromStringRepresentation(digitStrRep);
             accountNumber.append(translatedDigit);
-            translateStringToDigit(accountStringArray, accountNumber, endingPosition);
+            translateFullAccountNumber(accountNumberStrRep, accountNumber, endingPosition);
         }
     }
 
