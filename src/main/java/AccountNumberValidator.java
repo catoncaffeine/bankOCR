@@ -13,9 +13,10 @@ public class AccountNumberValidator {
     }
 
     private Boolean hasIllegalDigits(String accountNumber) {
-        return false;
+
+        return accountNumber.indexOf("?") != -1;
     }
-    
+
     private Boolean invalidCheckSum(String accountNumber) {
         return false;
     }
