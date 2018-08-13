@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,9 +14,15 @@ public class AccountNumberValidationResultGeneratorTest {
         String invalidDigitAccount = "457508???";
         String invalidChecksumAccount = "664371495";
         ArrayList<String> accounts = new ArrayList<>(Arrays.asList(validAccount, invalidDigitAccount, invalidChecksumAccount));
-        HashMap<String, String> result = resultGenerator.getValidationResults(accounts);
-        assert(result.get(validAccount)).equals(AccountNumberErrorEnum.VALID.getValue());
-        assert(result.get(invalidDigitAccount)).equals(AccountNumberErrorEnum.ILLEGAL.getValue());
-        assert(result.get(invalidChecksumAccount)).equals(AccountNumberErrorEnum.ERROR.getValue());
+        HashMap<String, String> result;
+        try {
+            result = resultGenerator.getValidationResults(accounts);
+            assert(result.get(validAccount)).equals(AccountNumberErrorEnum.VALID.getValue());
+            assert(result.get(invalidDigitAccount)).equals(AccountNumberErrorEnum.ILLEGAL.getValue());
+            assert(result.get(invalidChecksumAccount)).equals(AccountNumberErrorEnum.ERROR.getValue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
