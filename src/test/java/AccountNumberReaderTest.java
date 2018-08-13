@@ -2,6 +2,8 @@ import org.junit.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// TODO: Story 1 - deal with exceptions more gracefully
+
 public class AccountNumberReaderTest {
     AccountNumberReader accountNumberReader = new AccountNumberReader();
 

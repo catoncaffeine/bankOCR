@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.ArrayList;
 
+// TODO: Story 1 - handle exception more gracefully
+
 public class AccountNumberReader {
 
     public ArrayList<String> getAccountNumbers(String filePath) throws IOException {
@@ -12,6 +14,8 @@ public class AccountNumberReader {
 
     private void readAccountNumbers(BufferedReader reader, ArrayList<String> translatedAccountNumbers) throws IOException{
         ArrayList<String> accountStringArray = generateAccountStringArray(reader);
+        // if the generated [top, middle, bottom] array does not include all 3 components
+        // assume to be the end of the file and do not process
         if(accountStringArray.size() == 3) {
             StringBuffer accountNumber = new StringBuffer();
             translateStringToDigit(accountStringArray, accountNumber, 0);
@@ -21,6 +25,8 @@ public class AccountNumberReader {
     }
 
     private ArrayList<String> generateAccountStringArray(BufferedReader reader) throws IOException{
+        // reading 4 lines at a time to generate one account id,
+        // stored in a string array of 3 -> [top, middle, bottom]
         ArrayList<String> accountStringArray = new ArrayList<>();
         for (int i = 0; i<3; i++) {
             String line = reader.readLine();
@@ -40,6 +46,8 @@ public class AccountNumberReader {
         int endingPosition = startingPosition + 3;
         if(endingPosition <= 27) {
             StringBuffer digitStringRepresentation = new StringBuffer();
+            // get 3 characters at a time from top, middle, and bottom
+            // to construct a single digit inside each account id
             accountStringArray.forEach(line ->
                     digitStringRepresentation.append(line.substring(startingPosition, endingPosition))
             );
