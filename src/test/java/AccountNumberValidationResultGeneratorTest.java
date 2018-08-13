@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+// TODO: Story 3 - should test the actual file output not the HashMap
+// TODO: Story 3 - remove generated file once test is done
+// TODO: Story 3 - handle exceptions more gracefully
+
 public class AccountNumberValidationResultGeneratorTest {
     AccountNumberValidationResultGenerator resultGenerator = new AccountNumberValidationResultGenerator();
 

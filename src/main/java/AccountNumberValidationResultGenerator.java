@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+// TODO: Story 3 - return type of HashMap was only for testing purpose, remove
+// TODO: Story 3 - allow client to specify output path and format
+// TODO: Story 3 - handle exceptions more gracefully
+
 public class AccountNumberValidationResultGenerator {
 
     public HashMap<String, String> getValidationResults(ArrayList<String> accountNumbers) throws IOException{
