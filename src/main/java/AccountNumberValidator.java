@@ -18,6 +18,12 @@ public class AccountNumberValidator {
     }
 
     private Boolean invalidCheckSum(String accountNumber) {
-        return false;
+        int total = 0;
+        for(int i = 0; i < 9; i++) {
+            int multiplier = 9 - i;
+            int digit = Integer.parseInt(accountNumber.substring(i, i+1));
+            total+=(multiplier * digit);
+        }
+        return total%11 != 0;
     }
 }
