@@ -19,6 +19,7 @@
             </plugin>
         </plugins>
     </build>
+    <!--TODO: Add jUnit dependency here-->
 
 
 </project>

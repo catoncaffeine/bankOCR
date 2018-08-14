@@ -1,3 +1,5 @@
+// TODO: give this a more meaningful name
+
 public enum BankOCREnum {
     ZERO("0",   " _ " +
                 "| |" +

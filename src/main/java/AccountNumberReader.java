@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.ArrayList;
 
 // TODO: Story 1 - handle exception more gracefully
+// TODO: Make it so that this can process any number of digits
+// TODO: Name variables with more meaningful names
 
 public class AccountNumberReader {
 
@@ -12,6 +14,7 @@ public class AccountNumberReader {
         return translatedAccountNumbers;
     }
 
+    // TODO: use a more specific exception
     private void readAccountNumbers(BufferedReader reader, ArrayList<String> translatedAccountNumbers) throws IOException{
         ArrayList<String> accountStringArray = generateAccountStringArray(reader);
         // if the generated [top, middle, bottom] array does not include all 3 components
@@ -30,6 +33,8 @@ public class AccountNumberReader {
         }
     }
 
+    // TODO: check what happens if IO Exception
+    // TODO: use a more specific exception
     private ArrayList<String> generateAccountStringArray(BufferedReader reader) throws IOException{
         // reading 4 lines at a time to generate one account id,
         // stored in a string array of 3 -> [top, middle, bottom]
@@ -48,9 +53,10 @@ public class AccountNumberReader {
         return lineIndex == 1 && line == null;
     }
 
+    // TODO: extract this to a utility class, can this be static
     private void translateStringToDigit(ArrayList<String> accountStringArray, StringBuffer accountNumberStrRep,  int startingPosition) {
         int endingPosition = startingPosition + 3;
-        if(endingPosition <= 27) {
+        if(endingPosition <= 27) { // TODO: use digitLength * 3
             StringBuffer digitStringRepresentation = new StringBuffer();
             accountStringArray.forEach(line ->
                 digitStringRepresentation.append(line.substring(startingPosition, endingPosition))
@@ -60,9 +66,10 @@ public class AccountNumberReader {
         }
     }
 
+    // TODO: extract this to a utility class, can this be static
     private void translateFullAccountNumber(StringBuffer accountNumberStrRep, StringBuffer accountNumber, int startingPosition) {
         int endingPosition = startingPosition + 9;
-        if(endingPosition <= 81) {
+        if(endingPosition <= 81) { // TODO: use digitLength * 9
             String digitStrRep = accountNumberStrRep.substring(startingPosition, endingPosition);
             String translatedDigit = BankOCREnum.getDigitFromStringRepresentation(digitStrRep);
             accountNumber.append(translatedDigit);
@@ -70,6 +77,7 @@ public class AccountNumberReader {
         }
     }
 
+    // TODO: extract this to a utility class, can this be static
     private String addEndingSpaces(String line, int totalLength) {
         int missingSpaces = totalLength - (line != null ? line.length() : 0);
         return (line + new String(new char[missingSpaces]).replace("\0", " "));
